@@ -12,11 +12,16 @@
     <div id="outer-container">
       <div id="top-container">
         <h1>To-do List</h1>
-        <input id="todo-name" type="text" name="todo-name" placeholder="What do you want to do today...">
-        <button id="create-todo" name="create-todo">Create To-do</button>
+        <div id="input-container">
+          <input id="todo-name" type="text" name="todo-name" placeholder="What do you want to do today...">
+          <button id="create-todo" name="create-todo" type="button">Create To-do</button>
+        </div>
       </div>
+      <div class="divider"></div>
       <div id="bottom-container">
-
+        <ul id="todo-ulist">
+          <li class="todo-item">Todo #1<button class="delete-todo" type="button">X</button></li>
+        </ul>
       </div>
     </div>
   </body>

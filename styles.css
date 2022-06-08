@@ -1,0 +1,84 @@
+:root {
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+*, *::after, *::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(35deg, rgb(255, 125, 0), rgb(125, 255, 0));
+}
+
+#outer-container {
+  background-color: white;
+  padding: 1.2rem;
+  border-radius: 10px;
+  width: 50%;
+  min-width: 250px;
+}
+
+h1 {
+  padding-bottom: 0.3em;
+}
+
+#input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+#todo-name,
+#create-todo {
+  display: block;
+  margin: 0 0 1em;
+  padding: 0.3em;
+  font-size: 0.9rem;
+}
+
+#todo-name {
+  overflow: hidden;
+  flex: 1 1 0;
+}
+
+#create-todo {
+  flex: 0 1 auto;
+}
+
+.divider {
+  border: 1px solid rgb(0 0 0);
+  border-radius: 100%;
+}
+
+#bottom-container {
+  padding: 1.4rem 0 0.2rem;
+}
+
+#todo-ulist {
+  width: 100%;
+  list-style-type: none;
+}
+
+.todo-item {
+  margin: 0 1em;
+  padding: 8px;
+  background-color: cadetblue;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+
+.todo-item > button {
+  display: block;
+  float: right;
+  padding: 2px;
+}
