@@ -22,15 +22,15 @@ function addNewTodo(title) {
 }
 
 function resetUserText(textInputElement) {
-  textInputElement = "";
+  textInputElement.value = "";
 }
 
 createButton.addEventListener('click', () => {
   const userText = document.getElementById("todo-name").value;
   console.log(userText);
-  // add check for blank text box and accompanying error
+  // ***add check for blank text box and accompanying error
 
   addNewTodo(userText);
 
-  resetUserText(userText);
+  resetUserText(textField);
 })
