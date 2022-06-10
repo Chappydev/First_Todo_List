@@ -1,6 +1,8 @@
 const textField = document.getElementById("todo-name");
 const createButton = document.getElementById("create-todo");
 const todoList = document.getElementById("todo-ulist");
+const deleteButtons = todoList.getElementsByClassName("delete-todo");
+addDeleteOnClick();
 
 function addNewTodo(title) {
   // create new <li> element and <button>
@@ -18,7 +20,8 @@ function addNewTodo(title) {
   newTodo.appendChild(newTodoDelete);
   // locate the new <li> at the end of the todo list
   todoList.appendChild(newTodo);
-
+  // Add delete event listener to all deleteButtons
+  addDeleteOnClick();
 }
 
 function resetUserText(textInputElement) {
@@ -28,7 +31,6 @@ function resetUserText(textInputElement) {
 createButton.addEventListener('click', () => {
   const textField = document.getElementById("todo-name")
   const userText = document.getElementById("todo-name").value;
-  console.log(userText);
   // ***add check for blank text box and accompanying error
   if (textField.validity.valueMissing) {
     textField.setCustomValidity("This field is required");
@@ -45,3 +47,13 @@ createButton.addEventListener('click', () => {
   }
 
 })
+
+function addDeleteOnClick() {
+    Array.from(deleteButtons).forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const parentTodo = btn.parentNode;
+      console.log(parentTodo);
+      parentTodo.remove();
+    })
+  })
+}
