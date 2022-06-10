@@ -26,11 +26,22 @@ function resetUserText(textInputElement) {
 }
 
 createButton.addEventListener('click', () => {
+  const textField = document.getElementById("todo-name")
   const userText = document.getElementById("todo-name").value;
   console.log(userText);
   // ***add check for blank text box and accompanying error
+  if (textField.validity.valueMissing) {
+    textField.setCustomValidity("This field is required");
+    textField.reportValidity();
+  } else if (textField.validity.tooLong) {
+    textField.setCustomValidity("Your To-do must be no more than 25 characters");
+    textField.reportValidity();
+  } else {
+    textField.setCustomValidity("");
 
-  addNewTodo(userText);
+    addNewTodo(userText);
 
-  resetUserText(textField);
+    resetUserText(textField);
+  }
+
 })
