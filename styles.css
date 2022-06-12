@@ -70,6 +70,7 @@ h1 {
 }
 
 .todo-item {
+  position: relative;
   margin: 0 1em;
   padding: 8px;
   background-color: cadetblue;
@@ -77,8 +78,28 @@ h1 {
   border-radius: 4px;
 }
 
+.todo-item:not(:last-of-type) {
+  margin-bottom: 0.5em;
+}
+
 .todo-item > button {
   display: block;
   float: right;
   padding: 2px;
+  font-size: 0.9rem;
+}
+
+.edit-input {
+  visibility: hidden;
+  position: absolute;
+  box-sizing: content-box;
+  display: inline-block;
+  font-size: 1rem;
+  top: 50%;
+  left: 6px;
+  transform: translateY(-50%);
+}
+
+.edit-input:focus {
+  visibility: visible;
 }

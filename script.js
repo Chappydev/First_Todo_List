@@ -7,20 +7,32 @@ savedTodos.forEach(addNewTodo);
 function addNewTodo(title) {
   // create new <li> element and <button>
   const newTodo = document.createElement("li");
+  const newTodoInput = document.createElement("input");
+  const newTodoEdit = document.createElement("button");
   const newTodoDelete = document.createElement("button");
   // append appropriate stuff to delete button
-  newTodoDelete.className = "delete-todo";
+  newTodoDelete.classList.add("delete-todo", "todo-button");
   newTodoDelete.type = "button";
   newTodoDelete.innerText = "X";
+  // append appropriate stuff to edit button
+  newTodoEdit.classList.add("edit-todo", "todo-button");
+  newTodoEdit.type = "button";
+  newTodoEdit.innerText = "Edit";
+  // set up input field with classes, type, value
+  newTodoInput.classList.add("edit-input");
+  newTodoInput.setAttribute("type", "text");
+  newTodoInput.tabIndex = '1';
+  newTodoInput.value = title;
   // assign class to <li>
   newTodo.className = "todo-item";
-  // append user-created title to the <li> element
+  // add sub-items to the new todo
   newTodo.innerText = title;
-  // append delete button to the <li> element
-  newTodo.appendChild(newTodoDelete);
+  newTodo.append(newTodoDelete, newTodoEdit);
+  newTodo.prepend(newTodoInput);
   // locate the new <li> at the end of the todo list
   todoList.appendChild(newTodo);
   // Add delete event listener to all deleteButtons
+  addEditOnClick(newTodoEdit, newTodoInput);
   addDeleteOnClick(newTodoDelete, title);
 }
 
@@ -61,5 +73,17 @@ function addDeleteOnClick(btn, txt) {
     parentTodo.remove();
     savedTodos = savedTodos.filter((e) => e !== txt)
     localStorage.setItem("savedTodos", JSON.stringify(savedTodos));
+  })
+}
+
+function addEditOnClick(btn, input) {
+  btn.addEventListener('click', (e) => {
+    const parentTodo = btn.parentNode;
+    const editInput = input;
+    // focus on .edit-input, making it visible;
+    // prevents scrolling into view with true
+    editInput.style.visibility = "visible";
+    editInput.focus();
+    console.log(document.activeElement);
   })
 }
