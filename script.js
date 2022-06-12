@@ -1,8 +1,8 @@
 const textField = document.getElementById("todo-name");
 const createButton = document.getElementById("create-todo");
 const todoList = document.getElementById("todo-ulist");
-const deleteButtons = todoList.getElementsByClassName("delete-todo");
-addDeleteOnClick();
+let savedTodos = JSON.parse(localStorage.getItem("savedTodos")) || [];
+savedTodos.forEach(addNewTodo);
 
 function addNewTodo(title) {
   // create new <li> element and <button>
@@ -21,7 +21,7 @@ function addNewTodo(title) {
   // locate the new <li> at the end of the todo list
   todoList.appendChild(newTodo);
   // Add delete event listener to all deleteButtons
-  addDeleteOnClick();
+  addDeleteOnClick(newTodoDelete, title);
 }
 
 function resetUserText(textInputElement) {
@@ -38,22 +38,28 @@ createButton.addEventListener('click', () => {
   } else if (textField.validity.tooLong) {
     textField.setCustomValidity("Your To-do must be no more than 25 characters");
     textField.reportValidity();
+  } else if (savedTodos.includes(userText)) {
+    textField.setCustomValidity("Sorry, you can only have one task with the same title");
+    textField.reportValidity();
   } else {
     textField.setCustomValidity("");
 
     addNewTodo(userText);
+
+    // add new todo to the localStorage
+    savedTodos.push(userText);
+    localStorage.setItem("savedTodos", JSON.stringify(savedTodos));
 
     resetUserText(textField);
   }
 
 })
 
-function addDeleteOnClick() {
-    Array.from(deleteButtons).forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const parentTodo = btn.parentNode;
-      console.log(parentTodo);
-      parentTodo.remove();
-    })
+function addDeleteOnClick(btn, txt) {
+  btn.addEventListener('click', (e) => {
+    const parentTodo = btn.parentNode;
+    parentTodo.remove();
+    savedTodos = savedTodos.filter((e) => e !== txt)
+    localStorage.setItem("savedTodos", JSON.stringify(savedTodos));
   })
 }
