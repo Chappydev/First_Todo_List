@@ -21,8 +21,10 @@ function addNewTodo(title) {
   // set up input field with classes, type, value
   newTodoInput.classList.add("edit-input");
   newTodoInput.setAttribute("type", "text");
-  newTodoInput.tabIndex = '1';
+  newTodoInput.tabIndex = '-1';
   newTodoInput.value = title;
+  newTodoInput.maxLength = 25;
+  newTodoInput.required = true;
   // assign class to <li>
   newTodo.className = "todo-item";
   // add sub-items to the new todo
@@ -33,7 +35,8 @@ function addNewTodo(title) {
   todoList.appendChild(newTodo);
   // Add delete event listener to all deleteButtons
   addEditOnClick(newTodoEdit, newTodoInput);
-  addDeleteOnClick(newTodoDelete, title);
+  addChangeTodoOnClick(newTodoInput, title);
+  addDeleteOnClick(newTodoDelete);
 }
 
 function resetUserText(textInputElement) {
@@ -67,11 +70,13 @@ createButton.addEventListener('click', () => {
 
 })
 
-function addDeleteOnClick(btn, txt) {
+function addDeleteOnClick(btn) {
   btn.addEventListener('click', (e) => {
     const parentTodo = btn.parentNode;
+    const currentText = parentTodo.childNodes[1].data;
+    console.log(currentText);
     parentTodo.remove();
-    savedTodos = savedTodos.filter((e) => e !== txt)
+    savedTodos = savedTodos.filter((task) => task !== currentText)
     localStorage.setItem("savedTodos", JSON.stringify(savedTodos));
   })
 }
@@ -86,4 +91,38 @@ function addEditOnClick(btn, input) {
     editInput.focus();
     console.log(document.activeElement);
   })
+}
+
+function addChangeTodoOnClick(input, txt) {
+  let currentText = txt;
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const newText = input.value;
+      const todoTextNode = input.nextSibling;
+      if (input.validity.valueMissing) {
+        input.setCustomValidity("This field is required");
+        input.reportValidity();
+      } else if (input.validity.tooLong) {
+        input.setCustomValidity("Your To-do must be no more than 25 characters");
+        input.reportValidity();
+      } else if (savedTodos.includes(newText) && newText !== currentText) {
+        input.setCustomValidity("Sorry, you can only have one task with the same title");
+        input.reportValidity();
+      } else {
+        input.setCustomValidity("");
+
+        input.style.visibility = "hidden";
+
+        // change todo name to the user's text
+        todoTextNode.textContent = newText;
+    
+        // update edited todo in the localStorage
+        savedTodos = savedTodos.map(text => text === currentText ? newText : text);
+        localStorage.setItem("savedTodos", JSON.stringify(savedTodos));
+        
+        // update currentText for next comparison
+        currentText = newText;
+      }
+    }
+  });
 }
